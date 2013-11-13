@@ -86,7 +86,19 @@
 
 <script src="https://togetherjs.com/togetherjs-min.js"></script>
 
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    jax: ["input/TeX","input/MathML","output/SVG"],
+    extensions: ["tex2jax.js", "mml2jax.js"],
+    TeX: {
+      extensions: ["AMSmath.js", "AMSsymbols.js", "noErrors.js", "noUndefined.js"]
+    },
+    tex2jax:
+      { inlineMath: [['$','$'],['\\(','\\)']] }
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 
 <script>
   (function () {
@@ -105,15 +117,6 @@
     window.UpdateMath = function (TeX) {
       QUEUE.Push(HIDEBOX, ["Text", math, "\\displaystyle{"+TeX+"}"], SHOWBOX);
     }
-    MathJax.Hub.Config({
-      jax: ["input/TeX","input/MathML","output/SVG"],
-      extensions: ["tex2jax.js", "mml2jax.js"],
-      TeX: {
-        extensions: ["AMSmath.js", "AMSsymbols.js", "noErrors.js", "noUndefined.js"]
-      },
-      tex2jax:
-        { inlineMath: [['$','$'],['\\(','\\)']] }
-    });
   })();
 </script>
 

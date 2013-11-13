@@ -1,198 +1,50 @@
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    showProcessingMessages: false,
-    tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
-  });
-</script>
-<script type="text/javascript">
-  var Preview = {};
-  window.addEventListener('load', function(){
-
-    // get the canvas element and its context
-    var canvas = document.querySelector('#sketch');
-    var context = canvas.getContext('2d');
-
-    var sketchContainer = document.querySelector('#sketchContainer');
-    var sketchStyle = getComputedStyle(sketchContainer);
-    canvas.width = parseInt(sketchStyle.getPropertyValue('width'), 10);
-    canvas.height = parseInt(sketchStyle.getPropertyValue('height'), 10);
-
-    var lastMouse = {
-        x: 0,
-        y: 0
-    };
-
-    // brush settings
-    context.lineWidth = 2;
-    context.lineJoin = 'round';
-    context.lineCap = 'round';
-    context.strokeStyle = '#000';
-
-    // attach the mousedown, mousemove, mouseup event listeners.
-    canvas.addEventListener('mousedown', function (e) {
-        lastMouse = {
-            x: e.pageX - this.offsetLeft,
-            y: e.pageY - this.offsetTop
-        };
-        canvas.addEventListener('mousemove', move, false);
-    }, false);
-
-    canvas.addEventListener('mouseup', function () {
-        canvas.removeEventListener('mousemove', move, false);
-    }, false);
-
-    function move(e) {
-        var mouse = {
-            x: e.pageX - this.offsetLeft,
-            y: e.pageY - this.offsetTop
-        };
-        draw(lastMouse, mouse);
-        lastMouse = mouse;
-    }
-
-    function draw(start, end, remote) {
-        context.beginPath();
-        context.moveTo(start.x, start.y);
-        context.lineTo(end.x, end.y);
-        context.closePath();
-        context.stroke();
-        if ((!remote) && TogetherJS.running) {
-            TogetherJS.send({
-                type: "draw",
-                start: start,
-                end: end
-            });
-        }
-    }
-
-    TogetherJS.hub.on("draw", function (msg) {
-        draw(msg.start, msg.end, true);
-    });
-
-    TogetherJS.hub.on("togetherjs.hello", function () {
-        var image = canvas.toDataURL("image/png");
-        TogetherJS.send({
-            type: "init",
-            image: image
-        });
-    });
-
-    TogetherJS.hub.on("init", function (msg) {
-        var image = new Image();
-        image.src = msg.image;
-        context.drawImage(image, 0, 0);
-    });
-
-    Preview = {
-      delay: 150,        // delay after keystroke before updating
-
-      preview: null,     // filled in by Init below
-      buffer: null,      // filled in by Init below
-
-      timeout: null,     // store setTimout id
-      mjRunning: false,  // true when MathJax is processing
-      oldText: null,     // used to check if an update is needed
-
-      //
-      //  Get the preview and buffer DIV's
-      //
-      Init: function () {
-        this.preview = document.getElementById("MathPreview");
-        this.buffer = document.getElementById("MathBuffer");
-      },
-
-      //
-      //  Switch the buffer and preview, and display the right one.
-      //  (We use visibility:hidden rather than display:none since
-      //  the results of running MathJax are more accurate that way.)
-      //
-      SwapBuffers: function () {
-        var buffer = this.preview, preview = this.buffer;
-        this.buffer = buffer; this.preview = preview;
-        buffer.style.visibility = "hidden"; buffer.style.position = "absolute";
-        preview.style.position = ""; preview.style.visibility = "";
-      },
-
-      //
-      //  This gets called when a key is pressed in the textarea.
-      //  We check if there is already a pending update and clear it if so.
-      //  Then set up an update to occur after a small delay (so if more keys
-      //    are pressed, the update won't occur until after there has been
-      //    a pause in the typing).
-      //  The callback function is set up below, after the Preview object is set up.
-      //
-      Update: function () {
-        console.log('asd');
-        if (this.timeout) {clearTimeout(this.timeout)}
-        this.timeout = setTimeout(this.callback,this.delay);
-      },
-
-      //
-      //  Creates the preview and runs MathJax on it.
-      //  If MathJax is already trying to render the code, return
-      //  If the text hasn't changed, return
-      //  Otherwise, indicate that MathJax is running, and start the
-      //    typesetting.  After it is done, call PreviewDone.
-      //
-      CreatePreview: function () {
-        Preview.timeout = null;
-        if (this.mjRunning) return;
-        var text = document.getElementById("MathInput").value;
-        if (text === this.oldtext) return;
-        this.buffer.innerHTML = this.oldtext = text;
-        this.mjRunning = true;
-        MathJax.Hub.Queue(
-          ["Typeset",MathJax.Hub,this.buffer],
-          ["PreviewDone",this]
-        );
-      },
-
-      //
-      //  Indicate that MathJax is no longer running,
-      //  and swap the buffers to show the results.
-      //
-      PreviewDone: function () {
-        this.mjRunning = false;
-        this.SwapBuffers();
-      }
-
-    };
-
-    //
-    //  Cache a callback to the CreatePreview action
-    //
-    Preview.callback = MathJax.Callback(["CreatePreview",Preview]);
-    Preview.callback.autoReset = true;  // make sure it can run more than once
-
-    Preview.Init();
-
-  }, false);
-
-
-</script>
-
+<!DOCTYPE html>
+<html>
+<head>
+<title>JaxMark Editor: Markdown with LaTeX</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="example/main.css" />
 <script src="https://togetherjs.com/togetherjs-min.js"></script>
-
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<div style="text-align: center; padding-bottom: 10px;"><a onclick="TogetherJS(this); return false;"><img src="https://togetherjs.com/images/start-togetherjs-blue.png" style="width: 135px" /></a>
-</div>
-
-
-<br/><br/>
-Preview is shown here:
-<div id="content">
-  <div id="input">
-    <textarea id="MathInput" cols="60" rows="10" onkeyup="Preview.Update()" style="margin-top:5px"></textarea>
+</head>
+<body>
+<div id="wrap">
+  <div id="head">
+    <span id="logo"><a href="http://github.com/mrshu/summath">$\sum math$</a></span><a style="border: 1px solid; border-radius: 3px;" onclick="TogetherJS(this); return false;">Get Together!</a>
+    <input type="file" id="opensel" />
+    <ul class="menu">
+      <li><span id="openbtn">Open</span></li>
+      <li><span id="savebtn">Save</span></li>
+      <li>
+        <span onclick="void(0)">&#9662;Export</span>
+        <ul class="menu1">
+          <li><span id="export-wordpress">Html with WordPress LaTeX</span></li>
+          <li><span id="export-mathjax">Html with MathJax LaTeX</span></li>
+          <li><span id="export-markdown">Markdown with Escaped LaTeX</span></li>
+        </ul>
+      </li>
+    </ul>
   </div>
-  <div id="output">
-    <div id="MathPreview" style="border:1px solid; padding: 3px; width:50%; margin-top:5px"></div>
-    <div id="MathBuffer" style="border:1px solid; padding: 3px; width:50%; margin-top:5px;
-visibility:hidden; position:absolute; top:0; left: 0"><div>
+  <div id="main">
+    <div id="container"></div>
   </div>
 </div>
-
-
-<div id="sketchContainer" style="width: 80%; height: 400px; border: 1px solid #000; margin: 0 auto;">
-    <canvas id="sketch"></canvas>
+<div id="dialog">
+  <div id="dialog-head"><span id="dialog-title">Export File</span><span id="dialog-close">&#215;</span></div>
+  <div id="dialog-body"><textarea id="dialog-text"></textarea></div>
 </div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  skipStartupTypeset: true,
+  showProcessingMessages: true,
+  tex2jax: {inlineMath: [['$','$']],
+            displayMath: [['$$','$$']],
+            processEnvironments: false},
+  'HTML-CSS': { imageFont: null }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="library/marked/marked.js"></script>
+<script src="library/jaxmark/jaxmark.js"></script>
+<script src="example/main.js"></script>
+</body>
+</html>

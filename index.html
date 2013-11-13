@@ -85,8 +85,41 @@
 </script>
 
 <script src="https://togetherjs.com/togetherjs-min.js"></script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script>
+  (function () {
+    var QUEUE = MathJax.Hub.queue;
+    var math = null, box = null;
+
+    var HIDEBOX = function () {box.style.visibility = "hiden"}
+    var SHOWBOX = function () {box.style.visibility = "visible"}
+
+    QUEUE.Push(function () {
+      math = MathJax.Hub.getAllJax("MathOutput")[0];
+      box = document.getElementById("box");
+      SHOWBOX();
+    });
+
+    window.UpdateMath = function (TeX) {
+      QUEUE.Push(HIDEBOX, ["Text", math, "\\displaystyle{"+TeX+"}"], SHOWBOX);
+    }
+    MathJax.Hub.Config({
+      tex2jax:
+        { inlineMath: [['$','$'],['\\(','\\)']] }
+    });
+  })();
+</script>
+
 <div style="text-align: center; padding-bottom: 10px;"><a onclick="TogetherJS(this); return false;"><img src="https://togetherjs.com/images/start-togetherjs-blue.png" style="width: 135px" /></a>
 </div>
 <div id="sketchContainer" style="width: 80%; height: 400px; border: 1px solid #000; margin: 0 auto;">
     <canvas id="sketch"></canvas>
+</div>
+<div id="mathjax">
+  <p><input id="MathInput" size="80" onkeyup="UpdateMath(this.value)" /></p>
+  <div class="box" id="box" style="visibility:hidden">
+    <div id="MathOutput" class="output">$${}$$</div>
+  </div>
 </div>

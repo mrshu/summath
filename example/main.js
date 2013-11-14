@@ -130,4 +130,8 @@ if (!window.console) console = {log : function() {}};
     area.focus();
   }
 
+  TogetherJS.hub.on("form-update", function(msg){
+    console.log('gotcha'); 
+  });
+
 })();

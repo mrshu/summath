@@ -45,6 +45,13 @@ MathJax.Hub.Config({
   'HTML-CSS': { imageFont: null }
 });
 MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('logo')]);
+
+TogetherJS_hub_on = {
+  "form-init": function (msg) {
+    console.log('initalizing this form', msg);
+  }
+};
+
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="library/marked/marked.js"></script>

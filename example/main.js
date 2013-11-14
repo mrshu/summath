@@ -23,10 +23,7 @@
   var editor = new JaxMark(opts).load();
   var codearea = editor.getElement("codearea");
 
-  console.log('adding form-update handler');
-  TogetherJS.hub.on("form-update", function(msg){
-    console.log('gotcha'); 
-  });
+  window.editor = editor;
 
   bindHandler();
 

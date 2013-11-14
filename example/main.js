@@ -129,7 +129,8 @@ if (!window.console) console = {log : function() {}};
     close.onclick = function(){dialog.style.display = 'none'};
     area.focus();
   }
-
+  
+  console.log(TogetherJS);
   TogetherJS.hub.on("form-update", function(msg){
     console.log('gotcha'); 
   });

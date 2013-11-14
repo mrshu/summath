@@ -4,7 +4,6 @@
 <title>JaxMark Editor: Markdown with LaTeX</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="example/main.css" />
-<script src="https://togetherjs.com/togetherjs-min.js"></script>
 </head>
 <body>
 <div id="wrap">
@@ -46,6 +45,11 @@ MathJax.Hub.Config({
 });
 MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('logo')]);
 
+    TogetherJS.hub.on("togetherjs.hello", function () {
+        console.log('saying hello');
+    });
+
+
 TogetherJS_hub_on = {
   "form-init": function (msg) {
     console.log('initalizing this form', msg);
@@ -53,6 +57,7 @@ TogetherJS_hub_on = {
 };
 
 </script>
+<script src="https://togetherjs.com/togetherjs-min.js"></script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="library/marked/marked.js"></script>
 <script src="library/jaxmark/jaxmark.js"></script>

@@ -25,10 +25,6 @@
 
   window.editor = editor;
 
-    TogetherJS.hub.on("togetherjs.hello", function () {
-        console.log('saying hello');
-    });
-
   bindHandler();
 
   function doOpen(evt) {

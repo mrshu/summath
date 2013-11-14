@@ -44,10 +44,16 @@ MathJax.Hub.Config({
   'HTML-CSS': { imageFont: null }
 });
 MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('logo')]);
+</script>
 
+<script type="text/javascript">
     TogetherJS.hub.on("togetherjs.hello", function () {
         console.log('saying hello');
     });
+    TogetherJS.hub.on("form-init", function () {
+        console.log('init form hello');
+    });
+
 
 
 TogetherJS_hub_on = {
@@ -55,8 +61,8 @@ TogetherJS_hub_on = {
     console.log('initalizing this form', msg);
   }
 };
-
 </script>
+
 <script src="https://togetherjs.com/togetherjs-min.js"></script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="library/marked/marked.js"></script>

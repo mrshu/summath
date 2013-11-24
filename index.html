@@ -48,6 +48,9 @@ MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('logo')]);
 </script>
 
 <script type="text/javascript">
+TogetherJS.hub.on("togetherjs.hello togetherjs.hello-back", function () {
+    console.log('hello there!');
+});
 TogetherJS_hub_on = {
   "form-init": function (msg) {
     console.log('initalizing this form', msg);
@@ -58,7 +61,6 @@ TogetherJS_hub_on = {
     $('#togetherjs-chat-input').submit(function(){
       console.log('submitted');
     });
-
   }
 };
 

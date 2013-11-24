@@ -50,8 +50,10 @@ MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('logo')]);
 
 <script type="text/javascript">
 TogetherJS.hub.on("togetherjs.hello togetherjs.hello-back", function () {
-    $('#togetherjs-chat-input').submit(function(){
-      console.log('submitted');
+    $('#togetherjs-chat-input').keydown(function(event){
+      if (event.which == 13) {
+        console.log('submitted');
+      }
     });
 });
 

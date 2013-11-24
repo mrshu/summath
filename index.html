@@ -52,7 +52,8 @@ MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('logo')]);
 TogetherJS.hub.on("togetherjs.hello togetherjs.hello-back", function () {
     $('#togetherjs-chat-input').keydown(function(event){
       if (event.which == 13) {
-        console.log('submitted');
+        console.log($('.togetherjs-chat-content:last'))
+        //MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('logo')]);
       }
     });
 });

@@ -49,12 +49,8 @@ MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('logo')]);
 </script>
 
 <script type="text/javascript">
-TogetherJS.hub.on("togetherjs.hello togetherjs.hello-back", function () {
-    $('#togetherjs-chat-input').keydown(function(event){
-      if (event.which == 13) {
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, $('.togetherjs-chat-content:last').get(0)]);
-      }
-    });
+TogetherJS.hub.on("chat", function () {
+  MathJax.Hub.Queue(["Typeset", MathJax.Hub, $('.togetherjs-chat-content:last').get(0)]);
 });
 
 TogetherJS_hub_on = {

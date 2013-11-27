@@ -52,8 +52,8 @@ MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('logo')]);
 TogetherJS.hub.on("togetherjs.chat", function () {
       MathJax.Hub.Queue(["Typeset", MathJax.Hub, $('.togetherjs-chat-content:last').get(0)]);
     // also mathjaxify the chat box
-    if ($("#togetherjs-chat-button.togetherjs-active").length == 0) {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub, $('.togetherjs-chat-content:last').get(1)]);
+    if ($("#togetherjs-chat-button .togetherjs-active").length == 0) {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub, $('#togetherjs-chat-messages .togetherjs-chat-content:last').get(1)]);
     }
 });
 

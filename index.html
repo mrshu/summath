@@ -57,7 +57,7 @@ TogetherJS.hub.on("togetherjs.chat", function () {
     }
 });
 
-TogetherJS.hub.on("togetherjs.hello", function () {
+TogetherJS.hub.on("togetherjs.hello togetherjs.hello-back", function () {
     $('#togetherjs-chat-input').keydown(function(event){
       if (event.which == 13) {
         MathJax.Hub.Queue(["Typeset", MathJax.Hub, $('.togetherjs-chat-content:last').get(0)]);

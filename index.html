@@ -65,7 +65,7 @@ TogetherJS.hub.on("togetherjs.hello togetherjs.hello-back", function () {
     });
 });
 
-TogetherJS.hub.on("form-update", function () {
+TogetherJS.hub.on("togetherjs.form-update", function () {
     console.log('triggering');
     $("#codearea").trigger('keyup');
 });
